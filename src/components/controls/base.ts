@@ -1,8 +1,12 @@
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import FormControlConfig from '@/components/controls/FormControlConfig'
-import { FormControlSettingInterface } from '@/types/controls'
+import Settings from '@/components/controls/Settings.vue'
 
-@Component
+@Component({
+  components: {
+    Settings
+  }
+})
 export default class BaseControl extends Vue {
   @Prop() type: string
 
@@ -10,5 +14,13 @@ export default class BaseControl extends Vue {
 
   get config (): FormControlConfig {
     return this.$store.getters['FormModule/findFieldByUuid'](this.uuid)
+  }
+
+  get label (): string {
+    return this.config.settings['label']['value']
+  }
+
+  get required (): boolean {
+    return this.config.settings['required']['value']
   }
 }

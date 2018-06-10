@@ -28,7 +28,7 @@
     }
   })
   export default class RadioField extends BaseControl {
-    model: string | number | boolean = null
+    model: string | number | boolean
     options: Object[] = []
 
     @Prop({default: undefined})

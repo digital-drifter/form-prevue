@@ -2,25 +2,24 @@
     <v-flex>
         <v-text-field data-input
                       type="text"
-                      :ref="name"
+                      :ref="config.name"
                       v-model="model"
-                      v-validate="rules"
-                      :error-messages="errors.collect(name)"
-                      :data-vv-name="name"
-                      :data-vv-as="as"
-                      :name="name"
+                      v-validate="config.validation.rules"
+                      :error-messages="errors.collect(config.validation.name)"
+                      :data-vv-name="config.validation.name"
+                      :data-vv-as="config.validation.as"
+                      :name="config.name"
                       :label="label"
                       :required="required"
-                      prepend-icon="settings"
                       @change="$emit('change', $event)"
                       @update="$emit('update', $event)">
         </v-text-field>
-        <settings :menu.sync="menu" :x="x" :y="y"></settings>
+        <settings :config="config"></settings>
     </v-flex>
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator'
+  import { Component } from 'vue-property-decorator'
   import Flatpickr from 'flatpickr'
   import BaseControl from '@/components/controls/base'
   import Settings from '@/components/controls/Settings.vue'
@@ -33,8 +32,16 @@
   export default class DateField extends BaseControl {
     model: string = (new Date()).toISOString().substring(0, 10)
 
-    get flatpickr (): Vue {
-      return this.$refs[this.name]['$el']
+    get flatpickr (): HTMLElement {
+      return this.$refs[this.uuid]['$el']
+    }
+
+    get label (): string {
+      return this.config.settings['label']['value']
+    }
+
+    get required (): boolean {
+      return this.config.settings['required']['value']
     }
 
     mounted () {
@@ -48,7 +55,3 @@
     }
   }
 </script>
-
-<style type="text/scss" lang="scss">
-
-</style>

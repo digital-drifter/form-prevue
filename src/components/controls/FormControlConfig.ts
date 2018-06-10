@@ -29,9 +29,9 @@ export class FormControlSettings implements FormControlSettingsInterface {
   [key: string]: FormControlSettingInterface
 
   constructor(settings: {[key:string]: FormControlSettingInterface}) {
-    this.label = settings.label
-    this.required = settings.required
-    this.value = settings.value
+    Object.keys(settings).forEach(key => {
+      this[key] = settings[key]
+    })
   }
 }
 
@@ -39,7 +39,7 @@ export default class FormControlConfig implements FormControlConfigInterface {
   uuid: string
   name: string
   menu: SettingsMenuInterface
-  settings?: FormControlSettingsInterface
+  settings: FormControlSettingsInterface
   validation?: ValidationInterface | undefined
   options?: Array<any> | undefined
   type?: string | undefined

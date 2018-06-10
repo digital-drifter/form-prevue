@@ -25,7 +25,6 @@
   import uuidv4 from 'uuid'
   import FormControlConfig, { SettingsMenu } from '@/components/controls/FormControlConfig'
   import ValidationConfig from '@/components/controls/ValidationConfig'
-  import { FormControlSettings } from './FormControlConfig'
 
   @Component({
     components: {
@@ -63,7 +62,7 @@
         })
     }
 
-    toggleSettingsIcon (value): void {
+    toggleSettingsIcon (value: boolean): void {
       this.settingsIcon = value
     }
 

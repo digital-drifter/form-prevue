@@ -1,8 +1,8 @@
+import uuidv4 from 'uuid'
 import Vue from 'vue'
 import { ActionContext, ActionTree, GetterTree, MutationTree } from 'vuex'
-import uuidv4 from 'uuid'
 import FormControlConfig from '@/components/controls/FormControlConfig'
-import FormControlConfigInterface, { FormControlSettingsInterface } from '@/types/controls'
+import FormControlConfigInterface from '@/types/controls'
 
 interface FormState {
   uuid: string | null
@@ -63,7 +63,7 @@ const actions: ActionTree<FormState, any> = {
 
     context.commit('UPDATE_FIELD_SETTINGS', {field, settings})
   },
-  updateFormControlSetting: (context: ActionContext<FormState, any>, {uuid, key, setting}) => {
+  updateFieldSetting: (context: ActionContext<FormState, any>, {uuid, key, setting}) => {
     let index: number = context.state.fields.findIndex(field => uuid === field.uuid)
 
     context.commit('UPDATE_FIELD_SETTING', {index, key, setting})

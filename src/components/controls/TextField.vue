@@ -7,10 +7,11 @@
                       :name="config.name"
                       :label="label"
                       :required="required"
+                      :autocomplete="autocomplete"
                       v-model="model"
                       :ref="config.uuid"
                       @change="$emit('change', $event)"
-                      @update="$emit('update', $event)">
+                      @input="$emit('update', $event)">
         </v-text-field>
         <settings :config="config"></settings>
     </v-flex>
@@ -19,23 +20,14 @@
 <script lang="ts">
   import { Component } from 'vue-property-decorator'
   import BaseControl from '@/components/controls/base'
-  import Settings from '@/components/controls/Settings.vue'
-  import { FormControlSetting, FormControlSettings } from './FormControlConfig'
+  import { FormControlSetting, FormControlSettings } from '@/components/controls/FormControlConfig'
 
-  @Component({
-    components: {
-      Settings
-    }
-  })
+  @Component
   export default class TextField extends BaseControl {
     model: string | null = null
 
-    get label (): string {
-      return this.config.settings['label']['value']
-    }
-
-    get required (): boolean {
-      return this.config.settings['required']['value']
+    get autocomplete (): boolean {
+      return this.config.settings['autocomplete']['value']
     }
 
     created (): void {
@@ -49,6 +41,11 @@
           }),
           required: new FormControlSetting({
             label: 'Required?',
+            value: false,
+            component: 'v-switch'
+          }),
+          autocomplete: new FormControlSetting({
+            label: 'Autocomplete?',
             value: false,
             component: 'v-switch'
           }),
