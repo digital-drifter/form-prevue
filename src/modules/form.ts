@@ -1,12 +1,12 @@
 import uuidv4 from 'uuid'
 import Vue from 'vue'
 import { ActionContext, ActionTree, GetterTree, MutationTree } from 'vuex'
-import FormControlConfig from '@/components/controls/FormControlConfig'
-import FormControlConfigInterface from '@/types/controls'
+import FieldConfig from '@/configs/FieldConfig'
+import FieldConfigInterface from '@/types/controls'
 
 interface FormState {
   uuid: string | null
-  fields: FormControlConfigInterface[]
+  fields: FieldConfigInterface[]
 }
 
 const state: FormState = {
@@ -24,10 +24,10 @@ const mutations: MutationTree<FormState> = {
   SET_FORM_UUID: (state: FormState, uuid: string) => {
     Vue.set(state, 'uuid', uuid)
   },
-  SET_FORM_FIELDS: (state: FormState, fields: FormControlConfigInterface[]) => {
+  SET_FORM_FIELDS: (state: FormState, fields: FieldConfigInterface[]) => {
     Vue.set(state, 'fields', fields)
   },
-  ADD_FORM_FIELD: (state: FormState, field: FormControlConfigInterface) => {
+  ADD_FORM_FIELD: (state: FormState, field: FieldConfigInterface) => {
     Vue.set(state.fields, state.fields.length, field)
   },
   TOGGLE_SETTINGS_MENU: (state: FormState, {field, options}) => {
@@ -43,6 +43,9 @@ const mutations: MutationTree<FormState> = {
   UPDATE_FIELD_SETTING: (state: FormState, {index, key, setting}) => {
     Vue.set(state.fields[index].settings, key, setting)
   },
+  UPDATE_FIELD_VALIDATION_RULES: (state: FormState, {index, rules}) => {
+    Vue.set(state.fields[index].validation, 'rules', rules)
+  },
 }
 
 const actions: ActionTree<FormState, any> = {
@@ -50,16 +53,16 @@ const actions: ActionTree<FormState, any> = {
     context.commit('SET_FORM_UUID', uuidv4())
     context.commit('SET_FORM_FIELDS', [])
   },
-  addField: (context: ActionContext<FormState, any>, field: FormControlConfig) => {
+  addField: (context: ActionContext<FormState, any>, field: FieldConfig) => {
     context.commit('ADD_FORM_FIELD', field)
   },
   toggleSettingsMenu: (context: ActionContext<FormState, any>, {uuid, options}) => {
-    let field: FormControlConfigInterface = context.getters['findFieldByUuid'](uuid)
+    let field: FieldConfigInterface = context.getters['findFieldByUuid'](uuid)
 
     context.commit('TOGGLE_SETTINGS_MENU', {field, options})
   },
   updateFieldSettings: (context: ActionContext<FormState, any>, {uuid, settings}) => {
-    let field: FormControlConfigInterface = context.getters['findFieldByUuid'](uuid)
+    let field: FieldConfigInterface = context.getters['findFieldByUuid'](uuid)
 
     context.commit('UPDATE_FIELD_SETTINGS', {field, settings})
   },
@@ -68,6 +71,11 @@ const actions: ActionTree<FormState, any> = {
 
     context.commit('UPDATE_FIELD_SETTING', {index, key, setting})
   },
+  updateFieldValidationRules: (context: ActionContext<FormState, any>, {uuid, rules}) => {
+    let index: number = context.state.fields.findIndex(field => uuid === field.uuid)
+
+    context.commit('UPDATE_FIELD_VALIDATION_RULES', {index, rules})
+  }
 }
 
 export default {

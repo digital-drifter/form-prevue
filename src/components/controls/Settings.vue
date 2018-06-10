@@ -6,9 +6,11 @@
                            :key="index"
                            :is="item.setting.component"
                            :label="item.setting.label"
+                           :hint="item.setting.hint"
                            v-model="item.setting.value"
-                           @input="onSettingChanged($event, item)"
-                           @change="onSettingChanged($event, item)">
+                           :persistent-hint="true"
+                           @input="onSettingChanged($event, item.key, item.setting)"
+                           @change="onSettingChanged($event, item.key, item.setting)">
                 </component>
             </v-card-text>
             <v-divider></v-divider>
@@ -23,16 +25,16 @@
 
 <script lang="ts">
   import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
-  import FormControlConfig from '@/components/controls/FormControlConfig'
-  import { FormControlSettingsInterface } from '@/types/controls'
+  import FieldConfig from '@/configs/FieldConfig'
+  import { FieldSettingInterface, FieldSettingsInterface } from '@/types/controls'
 
   @Component
   export default class Settings extends Vue {
     name: string = 'Settings'
 
-    initial: FormControlSettingsInterface
+    initial: FieldSettingsInterface
 
-    @Prop() config: FormControlConfig
+    @Prop() config: FieldConfig
 
     @Watch('open')
     onOpenChanged (current: boolean, previous: boolean) {
@@ -69,8 +71,9 @@
         })
     }
 
-    onSettingChanged (value: any, {key, setting}): void {
+    onSettingChanged (value: any, key: string, setting: FieldSettingInterface): void {
       setting.value = value
+
       this.$store.dispatch('FormModule/updateFieldSetting', {
         uuid: this.config.uuid,
         key,

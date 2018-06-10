@@ -1,4 +1,4 @@
-import FormControlConfigInterface, { FormControlSettingInterface, FormControlSettingsInterface, SettingsMenuInterface } from '@/types/controls'
+import FieldConfigInterface, { FieldSettingInterface, FieldSettingsInterface, SettingsMenuInterface } from '@/types/controls'
 import ValidationInterface from '@/types/validation'
 
 export class SettingsMenu implements SettingsMenuInterface {
@@ -13,34 +13,36 @@ export class SettingsMenu implements SettingsMenuInterface {
   }
 }
 
-export class FormControlSetting implements FormControlSettingInterface {
+export class FieldSetting implements FieldSettingInterface {
   component: any
   label: string
   value: any
+  hint: string
 
   constructor(setting: {[key:string]: any}) {
     this.component = setting.component
     this.label = setting.label
     this.value = setting.value
+    this.hint = setting.hint
   }
 }
 
-export class FormControlSettings implements FormControlSettingsInterface {
-  [key: string]: FormControlSettingInterface
+export class FieldSettings implements FieldSettingsInterface {
+  [key: string]: FieldSettingInterface
 
-  constructor(settings: {[key:string]: FormControlSettingInterface}) {
+  constructor(settings: {[key:string]: FieldSettingInterface}) {
     Object.keys(settings).forEach(key => {
       this[key] = settings[key]
     })
   }
 }
 
-export default class FormControlConfig implements FormControlConfigInterface {
+export default class FieldConfig implements FieldConfigInterface {
   uuid: string
   name: string
   menu: SettingsMenuInterface
-  settings: FormControlSettingsInterface
-  validation?: ValidationInterface | undefined
+  settings: FieldSettingsInterface
+  validation: ValidationInterface
   options?: Array<any> | undefined
   type?: string | undefined
 

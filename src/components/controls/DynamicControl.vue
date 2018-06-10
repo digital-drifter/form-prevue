@@ -7,24 +7,14 @@
         </transition>
         <component :is="control" :uuid="uuid"></component>
     </v-flex>
-    <!--<component :is="control" v-validate="control.rules"-->
-    <!--:error-messages="errors.collect(control.name)"-->
-    <!--:data-vv-name="control.name"-->
-    <!--:data-vv-as="control.as"-->
-    <!--:name="control.name"-->
-    <!--v-model="control.model"-->
-    <!--:counter="10"-->
-    <!--:label="control.label"-->
-    <!--:required="control.required">-->
-    <!--</component>-->
 </template>
 
 <script lang="ts">
   import { Component, Prop, Vue } from 'vue-property-decorator'
   import * as Controls from '@/components/controls'
   import uuidv4 from 'uuid'
-  import FormControlConfig, { SettingsMenu } from '@/components/controls/FormControlConfig'
-  import ValidationConfig from '@/components/controls/ValidationConfig'
+  import FieldConfig, { SettingsMenu } from '@/configs/FieldConfig'
+  import ValidationConfig from '@/configs/ValidationConfig'
 
   @Component({
     components: {
@@ -40,7 +30,7 @@
     @Prop() control: string
 
     created () {
-      this.$store.dispatch('FormModule/addField', new FormControlConfig({
+      this.$store.dispatch('FormModule/addField', new FieldConfig({
         uuid: this.uuid,
         type: this.control,
         name: this.control,
@@ -78,14 +68,6 @@
         .catch(error => {
           console.error(error)
         })
-
-      // this.config.menu.open = false
-      // this.config.menu.x = event.clientX
-      // this.config.menu.y = event.clientY
-      //
-      // this.$nextTick(() => {
-      //   this.config.menu.open = true
-      // })
     }
   }
 </script>

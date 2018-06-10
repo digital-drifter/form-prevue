@@ -13,9 +13,7 @@
   import { Component, Vue } from 'vue-property-decorator'
   import { Drawer, Toolbar } from '@/components/layout'
   import FormPreview from './components/FormPreview.vue'
-  import 'vuetify/dist/vuetify.min.css'
-  import 'material-design-icons-iconfont/dist/material-design-icons.css'
-  import './assets/themes/material.css'
+
 
   @Component({
     components: {

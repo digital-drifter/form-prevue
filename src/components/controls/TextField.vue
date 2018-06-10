@@ -20,7 +20,7 @@
 <script lang="ts">
   import { Component } from 'vue-property-decorator'
   import BaseControl from '@/components/controls/base'
-  import { FormControlSetting, FormControlSettings } from '@/components/controls/FormControlConfig'
+  import { FieldSetting, FieldSettings } from '@/configs/FieldConfig'
 
   @Component
   export default class TextField extends BaseControl {
@@ -33,18 +33,18 @@
     created (): void {
       this.$store.dispatch('FormModule/updateFieldSettings', {
         uuid: this.uuid,
-        settings: new FormControlSettings({
-          label: new FormControlSetting({
-            label: 'Text Field Label',
+        settings: new FieldSettings({
+          label: new FieldSetting({
+            label: 'Field Label',
             value: '',
             component: 'v-text-field'
           }),
-          required: new FormControlSetting({
+          required: new FieldSetting({
             label: 'Required?',
             value: false,
             component: 'v-switch'
           }),
-          autocomplete: new FormControlSetting({
+          autocomplete: new FieldSetting({
             label: 'Autocomplete?',
             value: false,
             component: 'v-switch'

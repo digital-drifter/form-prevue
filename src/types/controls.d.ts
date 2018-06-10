@@ -6,22 +6,23 @@ export interface SettingsMenuInterface {
   y: number
 }
 
-export interface FormControlSettingInterface {
+export interface FieldSettingInterface {
   label: string
   value: any
   component: any
+  hint: string
 }
 
-export interface FormControlSettingsInterface {
-  [key: string]: FormControlSettingInterface
+export interface FieldSettingsInterface {
+  [key: string]: FieldSettingInterface
 }
 
-export default interface FormControlConfigInterface {
+export default interface FieldConfigInterface {
   uuid: string
   name: string
   menu: SettingsMenuInterface
-  settings: FormControlSettingsInterface
+  settings: FieldSettingsInterface
   options?: Array<any> | undefined
   type?: string | undefined
-  validation?: ValidationInterface | undefined
+  validation: ValidationInterface
 }
