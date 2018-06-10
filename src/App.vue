@@ -1,28 +1,57 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+    <v-app>
+        <drawer :drawer.sync="drawer"></drawer>
+        <toolbar :drawer.sync="drawer"></toolbar>
+        <v-content>
+            <vuep :value="value" :scope="scope"></vuep>
+        </v-content>
+    </v-app>
 </template>
+<script lang="ts">
+  /* eslint-disable no-useless-escape */
 
+  import { Component, Vue } from 'vue-property-decorator'
+  import { Drawer, Toolbar } from '@/components/layout'
+  import FormPreview from './components/FormPreview.vue'
+  import 'vuetify/dist/vuetify.min.css'
+  import 'material-design-icons-iconfont/dist/material-design-icons.css'
+  import './assets/themes/material.css'
+
+  @Component({
+    components: {
+      Drawer,
+      Toolbar
+    }
+  })
+  export default class App extends Vue {
+    drawer: boolean = true
+    scope: Object = { FormPreview }
+    value: string = `
+<template>
+    <div>
+        <form-preview :controls="controls"></form-preview>
+    </div>
+</template>
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
-export default {
-  name: 'app',
-  components: {
-    HelloWorld
+    export default {
+      components: {
+        FormPreview
+      },
+      data () {
+        return {
+          control: '',
+          controls: []
+        }
+      },
+      created() {
+        this.$root.$on('field:add', field => {
+          this.controls.push(field)
+        })
+        this.$root.$on('form:clear', () => {
+          this.controls = []
+        })
+      }
+    }
+<\/script>`
   }
-}
 </script>
-
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
