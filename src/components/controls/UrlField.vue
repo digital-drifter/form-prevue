@@ -1,5 +1,6 @@
 <template>
     <v-text-field type="url"
+                  :ref="name"
                   v-validate="rules"
                   :error-messages="errors.collect(name)"
                   :data-vv-name="name"

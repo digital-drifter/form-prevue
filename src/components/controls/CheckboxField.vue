@@ -1,5 +1,6 @@
 <template>
     <v-checkbox v-model="model"
+                :ref="name"
                 v-validate="rules"
                 :error-messages="errors.collect(name)"
                 :data-vv-name="name"

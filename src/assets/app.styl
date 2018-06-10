@@ -16,3 +16,21 @@
 .icon.material-icons.input-group__prepend-icon:hover
   cursor pointer
   color: #009688
+
+.btn__settings
+  z-index 1 !important
+  position absolute !important
+  top 0
+  right 0
+  padding 0 !important
+  margin 0 !important
+
+  &:hover
+    cursor pointer !important
+    color #009688 !important
+
+.fade-enter-active, .fade-leave-active
+  transition opacity .5s
+
+.fade-enter, .fade-leave-to
+  opacity 0

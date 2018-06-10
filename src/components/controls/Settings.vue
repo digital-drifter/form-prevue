@@ -1,26 +1,19 @@
 <template>
-    <v-menu :close-on-content-click="false" :position-x="x" :position-y="y" offset-y absolute v-model="menu">
+    <v-menu :close-on-content-click="false" :close-on-click="false" :position-x="config.menu.x" :position-y="config.menu.y" offset-y absolute v-model="config.menu.open">
         <v-card>
             <v-card-text>
-                <v-text-field name="test" label="Label" v-model="config.label"></v-text-field>
-                <v-switch label="Required" v-model="config.required"></v-switch>
-                <!--<v-list>-->
-                    <!--<v-list-tile>-->
-                        <!--<v-list-tile-content>-->
-                            <!--<v-text-field name="test" label="Label" v-model="config.label"></v-text-field>-->
-                        <!--</v-list-tile-content>-->
-                    <!--</v-list-tile>-->
-                    <!--<v-list-tile>-->
-                        <!--<v-list-tile-content>-->
-                            <!--<v-switch label="Required" v-model="config.required"></v-switch>-->
-                        <!--</v-list-tile-content>-->
-                    <!--</v-list-tile>-->
-                <!--</v-list>-->
+                <component v-for="(item, index) in settings"
+                           :key="index"
+                           :is="item.setting.component"
+                           :label="item.setting.label"
+                           v-model="item.setting.value"
+                           @change="onSettingChanged($event, item)">
+                </component>
             </v-card-text>
             <v-divider></v-divider>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn flat @click="$emit('update:menu', false)">Cancel</v-btn>
+                <v-btn flat @click="onCancelClicked">Cancel</v-btn>
                 <v-btn color="primary" flat @click="onSaveClicked">Save</v-btn>
             </v-card-actions>
         </v-card>
@@ -28,28 +21,56 @@
 </template>
 
 <script lang="ts">
-  import { Component, Inject, Prop, Vue } from 'vue-property-decorator'
+  import { Component, Prop, Vue } from 'vue-property-decorator'
   import { FormControlConfig } from '@/components/controls/FormControlConfig'
 
   @Component
   export default class Settings extends Vue {
     name: string = 'Settings'
 
-    @Prop() menu: boolean
+    @Prop() config: FormControlConfig
 
-    @Prop() x: number
+    get settings (): Object[] {
+      return Object.keys(this.config.settings).map(key => {
+        return {
+          key,
+          setting: Object.assign({}, this.config.settings[key])
+        }
+      })
+    }
 
-    @Prop() y: number
+    closeSettingsMenu (): void {
+      this.$store.dispatch('FormModule/toggleSettingsMenu', {
+        uuid: this.config.uuid,
+        options: {
+          open: false,
+          x: 0,
+          y: 0,
+        }
+      })
+        .catch(error => {
+          console.error(error)
+        })
+    }
 
-    @Inject('config') config: FormControlConfig
+    onSettingChanged (value, {key, setting}): void {
+      setting.value = value
+      this.$store.dispatch('FormModule/updateFormControlSetting', {
+        uuid: this.config.uuid,
+        key,
+        setting
+      })
+        .catch(error => {
+          console.error(error)
+        })
+    }
 
-    mounted (): void {
-      // console.log(this.config.required)
-      // this.options = Object.keys(this.config)
+    onCancelClicked (): void {
+      this.closeSettingsMenu()
     }
 
     onSaveClicked (): void {
-      this.$emit('update:menu', false)
+      this.closeSettingsMenu()
     }
   }
 </script>

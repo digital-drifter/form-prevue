@@ -1,5 +1,6 @@
 <template>
     <v-text-field type="file"
+                  :ref="name"
                   v-model="model"
                   v-validate="rules"
                   :error-messages="errors.collect(name)"

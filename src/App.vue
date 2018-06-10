@@ -45,7 +45,7 @@
       },
       created() {
         this.$root.$on('field:add', field => {
-          this.controls.push(field)
+          this.$set(this.controls, this.controls.length, field)
         })
         this.$root.$on('form:clear', () => {
           this.controls = []
