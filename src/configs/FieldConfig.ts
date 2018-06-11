@@ -1,4 +1,4 @@
-import FieldConfigInterface, { FieldSettingsInterface, SettingsMenuInterface } from '@/types/controls'
+import { FieldConfigInterface, FieldSettingsInterface, SettingsMenuInterface } from '@/types/controls'
 import ValidationInterface from '@/types/validation'
 
 export default class FieldConfig implements FieldConfigInterface {

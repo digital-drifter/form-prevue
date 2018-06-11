@@ -1,9 +1,9 @@
 export interface SettingOptionInterface {
   label: string
-  value: string | boolean | object
+  value: any
 }
 
 export interface FieldOptionInterface {
   label: string
-  value: string | boolean | object
+  value: any
 }

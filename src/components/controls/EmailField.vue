@@ -22,11 +22,36 @@
   import { FieldSetting, FieldSettings } from '@/configs/SettingsConfig'
   import maskInput from 'vanilla-text-mask/dist/vanillaTextMask.js'
   import emailMask from 'text-mask-addons/dist/emailMask'
+  import { FieldSettingsInterface } from '@/types/controls'
 
   @Component
   export default class EmailField extends BaseControl {
     model: string | null = null
+
     maskedInput: Object
+
+    settings: FieldSettingsInterface = new FieldSettings({
+      label: new FieldSetting({
+        label: 'Field Label',
+        value: '',
+        component: 'v-text-field'
+      }),
+      required: new FieldSetting({
+        label: 'Required',
+        value: false,
+        component: 'v-switch'
+      }),
+      autocomplete: new FieldSetting({
+        label: 'Autocomplete',
+        value: false,
+        component: 'v-switch'
+      }),
+      placeholder: new FieldSetting({
+        label: 'Placeholder',
+        value: 'someone@example.com',
+        component: 'v-text-field'
+      }),
+    })
 
     onInput (event: any): void {
       try {
@@ -39,31 +64,6 @@
       } catch (e) {
         // do nothing
       }
-    }
-
-    beforeCreate (): void {
-      this.settings = new FieldSettings({
-        label: new FieldSetting({
-          label: 'Field Label',
-          value: '',
-          component: 'v-text-field'
-        }),
-        required: new FieldSetting({
-          label: 'Required',
-          value: false,
-          component: 'v-switch'
-        }),
-        autocomplete: new FieldSetting({
-          label: 'Autocomplete',
-          value: false,
-          component: 'v-switch'
-        }),
-        placeholder: new FieldSetting({
-          label: 'Placeholder',
-          value: 'someone@example.com',
-          component: 'v-text-field'
-        }),
-      })
     }
   }
 </script>

@@ -1,17 +1,8 @@
-interface MenuItemOptionsInterface {
-  event?: string
-  payload?: string
-  icon?: string
-  text?: string
-  heading?: string
-  divider?: boolean
-}
+import MenuInterface, { MenuItemInterface } from '@/types/menu'
 
-interface MenuInterface {
-  items: MenuItem[]
-}
+export class MenuItem implements MenuItemInterface {
+  [key: string]: any
 
-export class MenuItem {
   event?: string
   payload?: string
   icon?: string
@@ -19,24 +10,20 @@ export class MenuItem {
   heading?: string
   divider?: boolean
 
-  constructor(item: MenuItemOptionsInterface) {
-    this.event = item.event
-    this.payload = item.payload
-    this.icon = item.icon
-    this.text = item.text
-    this.heading = item.heading
-    this.divider = item.divider
+  constructor (options: { [key: string]: any }) {
+    this.event = options.event
+    this.payload = options.payload
+    this.icon = options.icon
+    this.text = options.text
+    this.heading = options.heading
+    this.divider = options.divider
   }
 }
 
 export default class Menu implements MenuInterface {
-  readonly _items: MenuItem[]
+  readonly items: MenuItemInterface[]
 
-  constructor(items: MenuItem[]) {
-    this._items = items
-  }
-
-  get items(): MenuItem[] {
-    return this._items
+  constructor (items: MenuItemInterface[]) {
+    this.items = items
   }
 }

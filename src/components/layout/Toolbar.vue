@@ -13,6 +13,7 @@
   @Component
   export default class Toolbar extends Vue {
     name: string = 'Toolbar'
+
     @Prop(Boolean) drawer: boolean
   }
 </script>

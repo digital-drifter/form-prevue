@@ -26,6 +26,7 @@
   @Component
   export default class UrlField extends BaseControl {
     model: string | null = null
+
     settings: FieldSettingsInterface = new FieldSettings({
       label: new FieldSetting({
         label: 'Field Label',
@@ -33,12 +34,12 @@
         component: 'v-text-field'
       }),
       required: new FieldSetting({
-        label: 'Required?',
+        label: 'Required',
         value: false,
         component: 'v-switch'
       }),
       autocomplete: new FieldSetting({
-        label: 'Autocomplete?',
+        label: 'Autocomplete',
         value: false,
         component: 'v-switch'
       }),

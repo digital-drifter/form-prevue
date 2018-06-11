@@ -23,37 +23,32 @@
   import { Instance } from 'flatpickr/dist/types/instance'
   import BaseControl from '@/components/controls/base'
   import { FieldSetting, FieldSettings } from '@/configs/SettingsConfig'
+  import { FieldSettingsInterface } from '@/types/controls'
 
   @Component
   export default class DateField extends BaseControl {
     model: string = (new Date()).toISOString().substring(0, 10)
 
-    flatpickr: Instance | Instance[]
+    flatpickr: Instance | Instance[] = Flatpickr(this.element, {
+      enableTime: false,
+      defaultDate: this.model,
+      onChange: (selectedDates: Date[], dateStr: string) => {
+        this.model = dateStr
+      }
+    })
 
-    beforeCreate (): void {
-      this.settings = new FieldSettings({
-        label: new FieldSetting({
-          label: 'Field Label',
-          value: '',
-          component: 'v-text-field'
-        }),
-        required: new FieldSetting({
-          label: 'Required?',
-          value: false,
-          component: 'v-switch'
-        })
+    settings: FieldSettingsInterface = new FieldSettings({
+      label: new FieldSetting({
+        label: 'Field Label',
+        value: '',
+        component: 'v-text-field'
+      }),
+      required: new FieldSetting({
+        label: 'Required?',
+        value: false,
+        component: 'v-switch'
       })
-    }
-
-    beforeUpdate () {
-      this.flatpickr = Flatpickr(this.element, {
-        enableTime: false,
-        defaultDate: this.model,
-        onChange: (selectedDates: Date[], dateStr: string) => {
-          this.model = dateStr
-        }
-      })
-    }
+    })
   }
 </script>
 <style type="text/css">

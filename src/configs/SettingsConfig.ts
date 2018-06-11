@@ -16,7 +16,7 @@ export class SettingsMenu implements SettingsMenuInterface {
   x: number = 0
   y: number = 0
 
-  constructor(options: {[key:string]: any}) {
+  constructor (options: { [key: string]: any }) {
     this.open = options.open
     this.x = options.x
     this.y = options.y
@@ -33,7 +33,7 @@ export class FieldSetting implements FieldSettingInterface {
   autocomplete?: boolean
   mask?: string
 
-  constructor(setting: {[key:string]: any}) {
+  constructor (setting: { [key: string]: any }) {
     this.component = setting.component
     this.label = setting.label
     this.value = setting.value
@@ -48,7 +48,7 @@ export class FieldSetting implements FieldSettingInterface {
 export class FieldSettings implements FieldSettingsInterface {
   [key: string]: FieldSettingInterface
 
-  constructor(settings: {[key:string]: FieldSettingInterface}) {
+  constructor (settings: { [key: string]: FieldSettingInterface }) {
     Object.keys(settings).forEach(key => {
       this[key] = settings[key]
     })

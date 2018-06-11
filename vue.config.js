@@ -3,7 +3,7 @@ module.exports = {
     resolve: {
       alias: {
         '@/*': './src/*',
-        vue$: 'vue/dist/vue.esm.browser'
+        vue$: 'vue/dist/vue.runtime.esm'
       }
     }
   }

@@ -20,24 +20,23 @@
   import { Component } from 'vue-property-decorator'
   import BaseControl from '@/components/controls/base'
   import { FieldSetting, FieldSettings } from '@/configs/SettingsConfig'
+  import { FieldSettingsInterface } from '@/types/controls'
 
   @Component
   export default class CheckboxField extends BaseControl {
     model: Array<any> = []
 
-    beforeCreate (): void {
-      this.settings = new FieldSettings({
-        label: new FieldSetting({
-          label: 'Field Label',
-          value: '',
-          component: 'v-text-field'
-        }),
-        required: new FieldSetting({
-          label: 'Required',
-          value: false,
-          component: 'v-switch'
-        })
+    settings: FieldSettingsInterface = new FieldSettings({
+      label: new FieldSetting({
+        label: 'Field Label',
+        value: '',
+        component: 'v-text-field'
+      }),
+      required: new FieldSetting({
+        label: 'Required',
+        value: false,
+        component: 'v-switch'
       })
-    }
+    })
   }
 </script>

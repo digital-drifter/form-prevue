@@ -8,17 +8,13 @@
     </v-app>
 </template>
 <script lang="ts">
-  /* eslint-disable no-useless-escape */
-
   import { Component, Vue } from 'vue-property-decorator'
-  import { Drawer, Toolbar } from '@/components/layout'
-  import FormPreview from './components/FormPreview.vue'
 
   @Component({
     components: {
-      Drawer,
-      Toolbar,
-      FormPreview
+      'drawer': () => import('@/components/layout/Drawer.vue'),
+      'toolbar': () => import('@/components/layout/Toolbar.vue'),
+      'form-preview': () => import('@/components/FormPreview.vue')
     }
   })
   export default class App extends Vue {

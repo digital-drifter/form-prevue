@@ -38,16 +38,14 @@
 
 <script lang="ts">
   import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
-  import FieldConfig from '@/configs/FieldConfig'
-  import { default as FieldConfigInterface, FieldSettingInterface, FieldSettingsInterface } from '@/types/controls'
 
   @Component
   export default class Settings extends Vue {
     name: string = 'Settings'
 
-    initial: FieldSettingsInterface
+    initial: any
 
-    @Prop() config: FieldConfig
+    @Prop(Object) config: any
 
     @Watch('open')
     onOpenChanged (current: boolean, previous: boolean) {
@@ -85,7 +83,7 @@
         })
     }
 
-    onSettingChanged (value: any, key: string, setting: FieldSettingInterface): void {
+    onSettingChanged (value: any, key: string, setting: any): void {
       if (value instanceof Event) {
         // do nothing...
       } else {
@@ -103,9 +101,10 @@
     }
 
     onRemoveClicked (): void {
-      const uuid: string = this.config.uuid
-      let index: number = this.$store.getters['FormModule/fields'].findIndex((field: FieldConfigInterface) => field.uuid === uuid)
-      this.$root.$emit('field:remove', {index,uuid})
+      this.$root.$emit('field:remove', {
+        index: this.$store.getters['FormModule/findFieldIndex'](this.config.uuid),
+        uuid: this.config.uuid
+      })
     }
 
     onCancelClicked (): void {

@@ -10,18 +10,6 @@
                 :files="files"
                 @init="handleFilePondInit">
         </file-pond>
-        <!--<v-text-field v-validate="validation.rules"-->
-        <!--:error-messages="errors.collect(validation.name)"-->
-        <!--:data-vv-name="validation.name"-->
-        <!--:data-vv-as="validation.as"-->
-        <!--:name="config.name"-->
-        <!--:label="label"-->
-        <!--:required="required"-->
-        <!--v-model="model"-->
-        <!--:ref="config.uuid"-->
-        <!--@change="$emit('change', $event)"-->
-        <!--@input="$emit('update', $event)">-->
-        <!--</v-text-field>-->
         <settings :config="config"></settings>
     </v-flex>
 </template>
@@ -45,7 +33,9 @@
   })
   export default class FileField extends BaseControl {
     model: string | null = null
+
     files: string[] = []
+
     settings: FieldSettingsInterface = new FieldSettings({
       label: new FieldSetting({
         label: 'Field Label',

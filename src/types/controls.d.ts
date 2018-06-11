@@ -1,5 +1,5 @@
 import ValidationInterface from '@/types/validation'
-import { SettingOptionInterface } from '@/types/options'
+import { FieldOptionInterface, SettingOptionInterface } from '@/types/options'
 
 export interface SettingsMenuInterface {
   open: boolean
@@ -27,12 +27,12 @@ export interface DynamicControlConfigInterface {
   uuid: string
 }
 
-export default interface FieldConfigInterface {
+export interface FieldConfigInterface {
   uuid: string
   name: string
   menu: SettingsMenuInterface
   settings: FieldSettingsInterface
-  options?: Array<any> | undefined
+  options?: FieldOptionInterface[]
   type?: string | undefined
   validation: ValidationInterface
 }

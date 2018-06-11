@@ -20,40 +20,40 @@
   import { Component } from 'vue-property-decorator'
   import BaseControl from '@/components/controls/base'
   import { FieldSetting, FieldSettings, SettingOption } from '@/configs/SettingsConfig'
+  import { FieldSettingsInterface } from '@/types/controls'
 
   @Component
   export default class RadioField extends BaseControl {
     model: string | number | boolean | null = null
+
     options: Object[] = []
 
-    beforeCreate (): void {
-      this.settings = new FieldSettings({
-        label: new FieldSetting({
-          label: 'Field Label',
-          value: '',
-          component: 'v-text-field'
-        }),
-        required: new FieldSetting({
-          label: 'Required',
-          value: false,
-          component: 'v-switch'
-        }),
-        direction: new FieldSetting({
-          label: 'Direction',
-          value: 'Column',
-          component: 'v-select',
-          options: [
-            new SettingOption({
-              label: 'Column',
-              value: 'Column'
-            }),
-            new SettingOption({
-              label: 'Row',
-              value: 'Row'
-            })
-          ]
-        })
+    settings: FieldSettingsInterface = new FieldSettings({
+      label: new FieldSetting({
+        label: 'Field Label',
+        value: '',
+        component: 'v-text-field'
+      }),
+      required: new FieldSetting({
+        label: 'Required',
+        value: false,
+        component: 'v-switch'
+      }),
+      direction: new FieldSetting({
+        label: 'Direction',
+        value: 'Column',
+        component: 'v-select',
+        options: [
+          new SettingOption({
+            label: 'Column',
+            value: 'Column'
+          }),
+          new SettingOption({
+            label: 'Row',
+            value: 'Row'
+          })
+        ]
       })
-    }
+    })
   }
 </script>

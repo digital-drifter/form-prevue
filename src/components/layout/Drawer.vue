@@ -27,104 +27,101 @@
 
 <script lang="ts">
   import { Component, Prop, Vue } from 'vue-property-decorator'
-  import Menu, {MenuItem} from '@/components/layout/menu'
+  import Menu, { MenuItem } from '@/components/layout/menu'
+  import MenuInterface from '@/types/menu'
 
   @Component
   export default class Drawer extends Vue {
     name: string = 'Drawer'
-    menu: Menu = new Menu([])
+
+    menu: MenuInterface = new Menu([
+      new MenuItem({
+        heading: 'Layout'
+      }),
+      new MenuItem({
+        event: 'form:clear',
+        icon: 'clear',
+        text: 'Clear All'
+      }),
+      new MenuItem({
+        event: 'form:export',
+        icon: 'import_export',
+        text: 'Export HTML'
+      }),
+      new MenuItem({
+        divider: true
+      }),
+      new MenuItem({
+        heading: 'Fields'
+      }),
+      new MenuItem({
+        event: 'field:add',
+        payload: 'TextField',
+        icon: 'text_fields',
+        text: 'Text'
+      }),
+      new MenuItem({
+        event: 'field:add',
+        payload: 'NumberField',
+        icon: 'looks_one',
+        text: 'Number'
+      }),
+      new MenuItem({
+        event: 'field:add',
+        payload: 'EmailField',
+        icon: 'mail',
+        text: 'Email'
+      }),
+      new MenuItem({
+        event: 'field:add',
+        payload: 'TextareaField',
+        icon: 'notes',
+        text: 'Textarea'
+      }),
+      new MenuItem({
+        event: 'field:add',
+        payload: 'SelectField',
+        icon: 'arrow_drop_down_circle',
+        text: 'Select'
+      }),
+      new MenuItem({
+        event: 'field:add',
+        payload: 'CheckboxField',
+        icon: 'check_box',
+        text: 'Checkbox'
+      }),
+      new MenuItem({
+        event: 'field:add',
+        payload: 'RadioField',
+        icon: 'radio_button_checked',
+        text: 'Radio'
+      }),
+      new MenuItem({
+        event: 'field:add',
+        payload: 'DateField',
+        icon: 'event',
+        text: 'Date'
+      }),
+      new MenuItem({
+        event: 'field:add',
+        payload: 'DatetimeField',
+        icon: 'timer',
+        text: 'Datetime'
+      }),
+      new MenuItem({
+        event: 'field:add',
+        payload: 'FileField',
+        icon: 'attachment',
+        text: 'File'
+      }),
+      new MenuItem({
+        event: 'field:add',
+        payload: 'UrlField',
+        icon: 'link',
+        text: 'URL'
+      })
+    ])
 
     @Prop(Boolean) drawer: boolean
-
-    created (): void {
-      let items: MenuItem[] = [
-        new MenuItem({
-          heading: 'Layout'
-        }),
-        new MenuItem({
-          event: 'form:clear',
-          icon: 'clear',
-          text: 'Clear All'
-        }),
-        new MenuItem({
-          event: 'form:export',
-          icon: 'import_export',
-          text: 'Export HTML'
-        }),
-        new MenuItem({
-          divider: true
-        }),
-        new MenuItem({
-          heading: 'Fields'
-        }),
-        new MenuItem({
-          event: 'field:add',
-          payload: 'TextField',
-          icon: 'text_fields',
-          text: 'Text'
-        }),
-        new MenuItem({
-          event: 'field:add',
-          payload: 'NumberField',
-          icon: 'looks_one',
-          text: 'Number'
-        }),
-        new MenuItem({
-          event: 'field:add',
-          payload: 'EmailField',
-          icon: 'mail',
-          text: 'Email'
-        }),
-        new MenuItem({
-          event: 'field:add',
-          payload: 'TextareaField',
-          icon: 'notes',
-          text: 'Textarea'
-        }),
-        new MenuItem({
-          event: 'field:add',
-          payload: 'SelectField',
-          icon: 'arrow_drop_down_circle',
-          text: 'Select'
-        }),
-        new MenuItem({
-          event: 'field:add',
-          payload: 'CheckboxField',
-          icon: 'check_box',
-          text: 'Checkbox'
-        }),
-        new MenuItem({
-          event: 'field:add',
-          payload: 'RadioField',
-          icon: 'radio_button_checked',
-          text: 'Radio'
-        }),
-        new MenuItem({
-          event: 'field:add',
-          payload: 'DateField',
-          icon: 'event',
-          text: 'Date'
-        }),
-        new MenuItem({
-          event: 'field:add',
-          payload: 'DatetimeField',
-          icon: 'timer',
-          text: 'Datetime'
-        }),
-        new MenuItem({
-          event: 'field:add',
-          payload: 'FileField',
-          icon: 'attachment',
-          text: 'File'
-        }),
-        new MenuItem({
-          event: 'field:add',
-          payload: 'UrlField',
-          icon: 'link',
-          text: 'URL'
-        })
-      ]
-      this.menu = new Menu(items)
-    }
   }
 </script>

@@ -21,11 +21,44 @@
   import { FieldSetting, FieldSettings } from '@/configs/SettingsConfig'
   import maskInput from 'vanilla-text-mask/dist/vanillaTextMask.js'
   import createNumberMask from 'text-mask-addons/dist/createNumberMask'
+  import { FieldSettingsInterface } from '@/types/controls'
 
   @Component
   export default class NumberField extends BaseControl {
     model: string | null = null
+
     maskedInput: Object | null = null
+
+    settings: FieldSettingsInterface = new FieldSettings({
+      label: new FieldSetting({
+        label: 'Field Label',
+        value: '',
+        component: 'v-text-field'
+      }),
+      required: new FieldSetting({
+        label: 'Required',
+        value: false,
+        component: 'v-switch'
+      }),
+      min: new FieldSetting({
+        label: 'Minimum Value',
+        value: null,
+        component: 'v-text-field',
+        hint: 'Leave blank for no minimum value.'
+      }),
+      max: new FieldSetting({
+        label: 'Maximum Value',
+        value: null,
+        component: 'v-text-field',
+        hint: 'Leave blank for no maximum value.'
+      }),
+      step: new FieldSetting({
+        label: 'Increment',
+        value: null,
+        component: 'v-text-field',
+        hint: 'Leave blank for any value.'
+      })
+    })
 
     get min (): number {
       return this.config.settings['min'].value
@@ -136,39 +169,6 @@
       } catch (e) {
         // do nothing...
       }
-    }
-
-    beforeCreate (): void {
-      this.settings = new FieldSettings({
-        label: new FieldSetting({
-          label: 'Field Label',
-          value: '',
-          component: 'v-text-field'
-        }),
-        required: new FieldSetting({
-          label: 'Required',
-          value: false,
-          component: 'v-switch'
-        }),
-        min: new FieldSetting({
-          label: 'Minimum Value',
-          value: null,
-          component: 'v-text-field',
-          hint: 'Leave blank for no minimum value.'
-        }),
-        max: new FieldSetting({
-          label: 'Maximum Value',
-          value: null,
-          component: 'v-text-field',
-          hint: 'Leave blank for no maximum value.'
-        }),
-        step: new FieldSetting({
-          label: 'Increment',
-          value: null,
-          component: 'v-text-field',
-          hint: 'Leave blank for any value.'
-        })
-      })
     }
   }
 </script>

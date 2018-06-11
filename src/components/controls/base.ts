@@ -1,10 +1,9 @@
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
-import Settings from '@/components/controls/Settings.vue'
-import { default as FieldConfigInterface, FieldSettingsInterface } from '@/types/controls'
+import { Component, Prop, Vue } from 'vue-property-decorator'
+import { FieldConfigInterface, FieldSettingsInterface } from '@/types/controls'
 
 @Component({
   components: {
-    Settings
+    'settings': () => import('@/components/controls/Settings.vue')
   }
 })
 export default class BaseControl extends Vue {

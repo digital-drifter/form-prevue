@@ -16,15 +16,13 @@
 
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator'
-  import draggable from 'vuedraggable/dist/vuedraggable.js'
   import uuidv4 from 'uuid'
-  import DynamicControl from '@/components/controls/DynamicControl.vue'
   import { DynamicControlConfigInterface } from '@/types/controls'
 
   @Component({
     components: {
-      draggable,
-      DynamicControl
+      'draggable': () => import('vuedraggable/dist/vuedraggable.js'),
+      'dynamic-control': () => import('@/components/controls/DynamicControl.vue')
     }
   })
   export default class FormPreview extends Vue {
@@ -59,7 +57,7 @@
         })
     }
 
-    onDragEnd({ newIndex, oldIndex }: {newIndex: number, oldIndex: number}): void {
+    onDragEnd ({newIndex, oldIndex}: { newIndex: number, oldIndex: number }): void {
       this.$emit('reorder', {newIndex, oldIndex})
       // console.log(newIndex)
       // console.log(oldIndex)
