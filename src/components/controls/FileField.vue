@@ -70,6 +70,19 @@
         multiple: true,
         autocomplete: true
       }),
+      'allow-multiple': new FieldSetting({
+        label: 'Allow Multiple',
+        value: false,
+        component: 'v-switch',
+        hint: 'Allow the user to upload multiple files.'
+      }),
+      'max-files': new FieldSetting({
+        label: 'Max Files',
+        value: 1,
+        component: 'v-text-field',
+        mask: '###',
+        hint: 'The maximum number of files that the user can upload.'
+      }),
     })
 
     get acceptedFileTypes (): string {

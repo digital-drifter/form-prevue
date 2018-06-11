@@ -3,14 +3,11 @@
         <v-layout>
             <v-flex>
                 <v-form>
-                    <v-flex v-for="(control, index) in controls" :key="`control${index}`" class="field-wrapper" @mouseover="toggleSettingsIcon(true)" @mouseleave="toggleSettingsIcon(false)">
-                        <transition name="fade" mode="out-in">
-                            <v-btn icon class="btn__settings" @click="toggleSettingsMenu($event, control.uuid)" ref="settingsIcon" v-show="settingsIcon">
-                                <v-icon flat>settings</v-icon>
-                            </v-btn>
-                        </transition>
-                        <dynamic-control :control="control"></dynamic-control>
-                    </v-flex>
+                    <draggable v-model="controls" :options="dragOptions" v-bind="{xs3: true}" @end="onDragEnd">
+                        <transition-group name="list-complete">
+                            <dynamic-control v-for="control in controls" :key="control.uuid" :control="control" class="list-complete-item"></dynamic-control>
+                        </transition-group>
+                    </draggable>
                 </v-form>
             </v-flex>
         </v-layout>
@@ -18,20 +15,24 @@
 </template>
 
 <script lang="ts">
-  import uuidv4 from 'uuid'
   import { Component, Vue } from 'vue-property-decorator'
+  import draggable from 'vuedraggable/dist/vuedraggable.js'
+  import uuidv4 from 'uuid'
   import DynamicControl from '@/components/controls/DynamicControl.vue'
   import { DynamicControlConfigInterface } from '@/types/controls'
 
   @Component({
     components: {
+      draggable,
       DynamicControl
     }
   })
   export default class FormPreview extends Vue {
-    settingsIcon: boolean = false
-
     controls: DynamicControlConfigInterface[] = []
+
+    dragOptions: Object = {
+      handle: '.btn__handle'
+    }
 
     created (): void {
       this.$root.$on('field:add', (field: string) => {
@@ -44,7 +45,8 @@
         this.controls.splice(index, 1)
         this.$store.dispatch('FormModule/removeField', uuid)
           .catch(error => {
-            console.error(error)
+            // console.error(error)
+            return error
           })
       })
       this.$root.$on('form:clear', () => {
@@ -52,26 +54,15 @@
       })
       this.$store.dispatch('FormModule/create')
         .catch(error => {
-          console.error(error)
+          // console.error(error)
+          return error
         })
     }
 
-    toggleSettingsIcon (value: boolean): void {
-      this.settingsIcon = value
-    }
-
-    toggleSettingsMenu (event: MouseEvent, uuid: string): void {
-      this.$store.dispatch('FormModule/toggleSettingsMenu', {
-        uuid,
-        options: {
-          open: true,
-          x: event.clientX,
-          y: event.clientY,
-        }
-      })
-        .catch(error => {
-          console.error(error)
-        })
+    onDragEnd({ newIndex, oldIndex }: {newIndex: number, oldIndex: number}): void {
+      this.$emit('reorder', {newIndex, oldIndex})
+      // console.log(newIndex)
+      // console.log(oldIndex)
     }
   }
 </script>

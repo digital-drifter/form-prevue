@@ -19,13 +19,16 @@
 
 <script lang="ts">
   import { Component } from 'vue-property-decorator'
-  import Flatpickr from 'flatpickr'
+  import { default as Flatpickr } from 'flatpickr'
+  import { Instance } from 'flatpickr/dist/types/instance'
   import BaseControl from '@/components/controls/base'
   import { FieldSetting, FieldSettings } from '@/configs/SettingsConfig'
 
   @Component
   export default class DateField extends BaseControl {
     model: string = (new Date()).toISOString().substring(0, 10)
+
+    flatpickr: Instance | Instance[]
 
     beforeCreate (): void {
       this.settings = new FieldSettings({
@@ -42,8 +45,8 @@
       })
     }
 
-    mounted () {
-      new Flatpickr(this.element, {
+    beforeUpdate () {
+      this.flatpickr = Flatpickr(this.element, {
         enableTime: false,
         defaultDate: this.model,
         onChange: (selectedDates: Date[], dateStr: string) => {

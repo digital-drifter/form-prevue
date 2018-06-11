@@ -31,6 +31,7 @@ export class FieldSetting implements FieldSettingInterface {
   options?: SettingOptionInterface[]
   multiple?: boolean
   autocomplete?: boolean
+  mask?: string
 
   constructor(setting: {[key:string]: any}) {
     this.component = setting.component
@@ -40,6 +41,7 @@ export class FieldSetting implements FieldSettingInterface {
     this.options = setting.options
     this.multiple = setting.multiple
     this.autocomplete = setting.autocomplete
+    this.mask = setting.mask
   }
 }
 

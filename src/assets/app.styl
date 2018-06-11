@@ -21,20 +21,38 @@
   cursor pointer
   color #009688
 
-.btn__settings
+.btn__field-controls
   z-index 1 !important
   position absolute !important
-  top 0
-  right 0
-  padding 0 !important
-  margin 0 !important
 
-  &:hover
-    cursor pointer !important
-    color #009688 !important
+  &.btn__settings
+    top 0
+    right 0
+    padding 0 !important
+    margin 0 !important
+
+    &:hover
+      cursor pointer !important
+      color #009688 !important
+
+  &.btn__handle
+    top 0
+    right 32px
+    padding 0 !important
+    margin 0 !important
+
+    &:hover
+      cursor grab !important
+      color #009688 !important
 
 .fade-enter-active, .fade-leave-active
   transition opacity .5s
 
 .fade-enter, .fade-leave-to
+  opacity 0
+
+.list-complete-item
+  transition all 1s
+
+.list-complete-enter, .list-complete-leave-active
   opacity 0

@@ -15,6 +15,7 @@ export interface FieldSettingInterface {
   options?: SettingOptionInterface[]
   multiple?: boolean
   autocomplete?: boolean
+  mask?: string
 }
 
 export interface FieldSettingsInterface {

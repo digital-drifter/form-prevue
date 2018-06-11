@@ -729,6 +729,12 @@
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.0.tgz#50c1e2260ac0ed9439a181de3725a0168d59c48a"
 
+"@types/flatpickr@^3.1.2":
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/@types/flatpickr/-/flatpickr-3.1.2.tgz#767e04fea776ddb399007028bed1a885e26d6d52"
+  dependencies:
+    flatpickr "*"
+
 "@types/node@*":
   version "10.3.2"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.3.2.tgz#3840ec6c12556fdda6e0e6d036df853101d732a4"
@@ -3046,7 +3052,7 @@ flat-cache@^1.2.1:
     graceful-fs "^4.1.2"
     write "^0.2.1"
 
-flatpickr@^4.5.0:
+flatpickr@*, flatpickr@^4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/flatpickr/-/flatpickr-4.5.0.tgz#f72c7164a1c24e3ad419e3b2209d1a2d3604724a"
 
@@ -6382,6 +6388,10 @@ sort-keys@^1.0.0:
   dependencies:
     is-plain-obj "^1.0.0"
 
+sortablejs@^1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/sortablejs/-/sortablejs-1.7.0.tgz#80a2b2370abd568e1cec8c271131ef30a904fa28"
+
 source-list-map@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/source-list-map/-/source-list-map-2.0.0.tgz#aaa47403f7b245a92fbc97ea08f250d6087ed085"
@@ -7104,7 +7114,7 @@ vary@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
 
-vee-validate@^2.1.0-beta.0:
+vee-validate@dev-master:
   version "2.1.0-beta.1"
   resolved "https://registry.yarnpkg.com/vee-validate/-/vee-validate-2.1.0-beta.1.tgz#4909d74bb22df7f188217a7bd5384610bc2d757c"
 
@@ -7195,6 +7205,12 @@ vue-template-es2015-compiler@^1.6.0:
 vue@*, vue@^2.5.16:
   version "2.5.16"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.16.tgz#07edb75e8412aaeed871ebafa99f4672584a0085"
+
+vuedraggable@^2.16.0:
+  version "2.16.0"
+  resolved "https://registry.yarnpkg.com/vuedraggable/-/vuedraggable-2.16.0.tgz#52127081a2adb3de5fabd214d404ff3eee63575a"
+  dependencies:
+    sortablejs "^1.7.0"
 
 vuetify@^1.0.19:
   version "1.0.19"

@@ -16,6 +16,7 @@
                            :items="item.setting.options"
                            :multiple="item.setting.multiple"
                            :autocomplete="item.setting.autocomplete"
+                           :mask="item.setting.mask"
                            item-text="label"
                            item-value="value"
                            v-model="item.setting.value"
@@ -79,13 +80,14 @@
         }
       })
         .catch(error => {
-          console.error(error)
+          // console.error(error)
+          return error
         })
     }
 
     onSettingChanged (value: any, key: string, setting: FieldSettingInterface): void {
       if (value instanceof Event) {
-
+        // do nothing...
       } else {
         setting.value = value
         this.$store.dispatch('FormModule/updateFieldSetting', {
@@ -94,7 +96,8 @@
           setting
         })
           .catch(error => {
-            console.error(error)
+            // console.error(error)
+            return error
           })
       }
     }
@@ -111,7 +114,8 @@
         settings: this.initial
       })
         .catch(error => {
-          console.error(error)
+          // console.error(error)
+          return error
         })
 
       this.closeSettingsMenu()

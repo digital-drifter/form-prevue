@@ -61,7 +61,8 @@ export default class BaseControl extends Vue {
       settings: this.settings
     })
       .catch(error => {
-        console.error(error)
+        // console.error(error)
+        return error
       })
   }
 }
