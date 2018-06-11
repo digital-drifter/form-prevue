@@ -18,14 +18,14 @@
 <script lang="ts">
   import { Component } from 'vue-property-decorator'
   import BaseControl from '@/components/controls/base'
-  import { FieldSetting, FieldSettings } from '@/configs/FieldConfig'
+  import { FieldSetting, FieldSettings } from '@/configs/SettingsConfig'
   import maskInput from 'vanilla-text-mask/dist/vanillaTextMask.js'
   import createNumberMask from 'text-mask-addons/dist/createNumberMask'
 
   @Component
   export default class NumberField extends BaseControl {
     model: string | null = null
-    maskedInput: Object = null
+    maskedInput: Object | null = null
 
     get min (): number {
       return this.config.settings['min'].value
@@ -48,25 +48,23 @@
     }
 
     get integerLimit (): number {
-      let min: string = ('' + this.min).includes('.') ? ('' + this.min).split('.').shift() : ('' + this.min)
-      let max: string = ('' + this.max).includes('.') ? ('' + this.max).split('.').shift() : ('' + this.max)
-      let minLimit: number = min.replace(/-/g, '').length
-      let maxLimit: number = max.replace(/-/g, '').length
+      let minLimit: number = this.integerLength(this.min)
+      let maxLimit: number = this.integerLength(this.max)
 
       return minLimit >= maxLimit ? minLimit : maxLimit
     }
 
     get decimalLimit (): number {
-      let minLimit: number = ('' + this.min).includes('.') ? ('' + this.min).split('.').pop().length : 0
-      let maxLimit: number = ('' + this.max).includes('.') ? ('' + this.max).split('.').pop().length : 0
+      let minLimit: number = this.decimalLength(this.min)
+      let maxLimit: number = this.decimalLength(this.max)
 
       return minLimit >= maxLimit ? minLimit : maxLimit
     }
 
-    get rawNumericValue (): number {
-      let value: string = this.maskedInput['textMaskInputElement']['state']['previousConformedValue']
-      return value.includes('.') ? parseFloat(value.slice(0).replace(/,/g, '')) : parseInt(value.slice(0).replace(/,/g, ''), 10)
-    }
+    // get rawNumericValue (): number {
+    //   let value: string = <string>this.maskedInput['textMaskInputElement']['state']['previousConformedValue']
+    //   return value.includes('.') ? parseFloat(value.slice(0).replace(/,/g, '')) : parseInt(value.slice(0).replace(/,/g, ''), 10)
+    // }
 
     // get clampedValue (): string {
     //   try {
@@ -97,6 +95,30 @@
       })
     }
 
+    integerLength(value:number):number {
+      if (this.isDecimal(value)) {
+        let integer: string = this.splitDecimal(value).shift() || ''
+        return integer.replace(/-/g, '').length
+      }
+      return value.toString(10).replace(/-/g, '').length || 0
+    }
+
+    decimalLength(value:number):number {
+      if (this.isDecimal(value)) {
+        let decimal: string = this.splitDecimal(value).pop() || ''
+        return decimal.length
+      }
+      return 0
+    }
+
+    splitDecimal(value: number): string[] {
+      return value.toString().split('.')
+    }
+
+    isDecimal(value: number):boolean {
+      return value.toString().includes('.')
+    }
+
     onInput (event: any): void {
       try {
         this.updateNumberMask(event.target)
@@ -116,43 +138,37 @@
       }
     }
 
-    created (): void {
-      this.$store.dispatch('FormModule/updateFieldSettings', {
-        uuid: this.uuid,
-        settings: new FieldSettings({
-          label: new FieldSetting({
-            label: 'Field Label',
-            value: '',
-            component: 'v-text-field'
-          }),
-          required: new FieldSetting({
-            label: 'Required?',
-            value: false,
-            component: 'v-switch'
-          }),
-          min: new FieldSetting({
-            label: 'Minimum Value',
-            value: null,
-            component: 'v-text-field',
-            hint: 'Leave blank for no minimum value.'
-          }),
-          max: new FieldSetting({
-            label: 'Maximum Value',
-            value: null,
-            component: 'v-text-field',
-            hint: 'Leave blank for no maximum value.'
-          }),
-          step: new FieldSetting({
-            label: 'Increment',
-            value: null,
-            component: 'v-text-field',
-            hint: 'Leave blank for any value.'
-          })
+    beforeCreate (): void {
+      this.settings = new FieldSettings({
+        label: new FieldSetting({
+          label: 'Field Label',
+          value: '',
+          component: 'v-text-field'
+        }),
+        required: new FieldSetting({
+          label: 'Required',
+          value: false,
+          component: 'v-switch'
+        }),
+        min: new FieldSetting({
+          label: 'Minimum Value',
+          value: null,
+          component: 'v-text-field',
+          hint: 'Leave blank for no minimum value.'
+        }),
+        max: new FieldSetting({
+          label: 'Maximum Value',
+          value: null,
+          component: 'v-text-field',
+          hint: 'Leave blank for no maximum value.'
+        }),
+        step: new FieldSetting({
+          label: 'Increment',
+          value: null,
+          component: 'v-text-field',
+          hint: 'Leave blank for any value.'
         })
       })
-        .catch(() => {
-          // do nothing...
-        })
     }
   }
 </script>

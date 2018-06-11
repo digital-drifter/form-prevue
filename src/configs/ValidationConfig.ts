@@ -1,7 +1,7 @@
 import ValidationInterface, { ValidationOptionsInterface } from '@/types/validation'
 
 export default class ValidationConfig implements ValidationInterface {
-  [key: string]: string | number | object
+  [key: string]: string  | object | null
 
   constructor (options: ValidationOptionsInterface) {
     this.name = options.name

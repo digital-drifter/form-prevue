@@ -10,8 +10,6 @@ import TextareaField from '@/components/controls/TextareaField.vue'
 import TextField from '@/components/controls/TextField.vue'
 import UrlField from '@/components/controls/UrlField.vue'
 
-
-
 export {
   CheckboxField,
   DateField,

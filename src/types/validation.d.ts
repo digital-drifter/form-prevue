@@ -1,9 +1,9 @@
 export interface ValidationOptionsInterface {
-  rules: string
+  rules: string | object | null
   name: string
   as: string
 }
 
 export default interface ValidationInterface {
-  [key:string]: string | number | object
+  [key:string]: string | object | null
 }

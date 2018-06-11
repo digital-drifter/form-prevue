@@ -1,4 +1,5 @@
 import ValidationInterface from '@/types/validation'
+import { SettingOptionInterface } from '@/types/options'
 
 export interface SettingsMenuInterface {
   open: boolean
@@ -11,10 +12,18 @@ export interface FieldSettingInterface {
   value: any
   component: any
   hint: string
+  options?: SettingOptionInterface[]
+  multiple?: boolean
+  autocomplete?: boolean
 }
 
 export interface FieldSettingsInterface {
   [key: string]: FieldSettingInterface
+}
+
+export interface DynamicControlConfigInterface {
+  field: string
+  uuid: string
 }
 
 export default interface FieldConfigInterface {

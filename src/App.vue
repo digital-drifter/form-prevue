@@ -3,7 +3,7 @@
         <drawer :drawer.sync="drawer"></drawer>
         <toolbar :drawer.sync="drawer"></toolbar>
         <v-content>
-            <vuep :value="value" :scope="scope"></vuep>
+            <form-preview></form-preview>
         </v-content>
     </v-app>
 </template>
@@ -14,42 +14,14 @@
   import { Drawer, Toolbar } from '@/components/layout'
   import FormPreview from './components/FormPreview.vue'
 
-
   @Component({
     components: {
       Drawer,
-      Toolbar
+      Toolbar,
+      FormPreview
     }
   })
   export default class App extends Vue {
     drawer: boolean = true
-    scope: Object = { FormPreview }
-    value: string = `
-<template>
-    <div>
-        <form-preview :controls="controls"></form-preview>
-    </div>
-</template>
-<script>
-    export default {
-      components: {
-        FormPreview
-      },
-      data () {
-        return {
-          control: '',
-          controls: []
-        }
-      },
-      created() {
-        this.$root.$on('field:add', field => {
-          this.$set(this.controls, this.controls.length, field)
-        })
-        this.$root.$on('form:clear', () => {
-          this.controls = []
-        })
-      }
-    }
-<\/script>`
   }
 </script>

@@ -1,20 +1,13 @@
 <template>
-    <v-flex style="position: relative" @mouseover="toggleSettingsIcon(true)" @mouseleave="toggleSettingsIcon(false)">
-        <transition name="fade" mode="out-in">
-            <v-btn icon class="btn__settings" @click="toggleSettingsMenu" ref="settingsIcon" v-show="settingsIcon">
-                <v-icon flat>settings</v-icon>
-            </v-btn>
-        </transition>
-        <component :is="control" :uuid="uuid"></component>
-    </v-flex>
+    <component :is="control.field" :uuid="control.uuid"></component>
 </template>
 
 <script lang="ts">
   import { Component, Prop, Vue } from 'vue-property-decorator'
   import * as Controls from '@/components/controls'
-  import uuidv4 from 'uuid'
-  import FieldConfig, { SettingsMenu } from '@/configs/FieldConfig'
+  import FieldConfig from '@/configs/FieldConfig'
   import ValidationConfig from '@/configs/ValidationConfig'
+  import { SettingsMenu } from '@/configs/SettingsConfig'
 
   @Component({
     components: {
@@ -23,22 +16,18 @@
     name: 'DynamicControl'
   })
   export default class DynamicControl extends Vue {
-    uuid: string = uuidv4()
-
-    settingsIcon: boolean = false
-
-    @Prop() control: string
+    @Prop() control: { [key: string]: any }
 
     created () {
-      this.$store.dispatch('FormModule/addField', new FieldConfig({
-        uuid: this.uuid,
-        type: this.control,
-        name: this.control,
+      this.$store.commit('FormModule/ADD_FORM_FIELD', new FieldConfig({
+        uuid: this.control.uuid,
+        type: this.control.field,
+        name: this.control.field,
         options: null,
         settings: null,
         validation: new ValidationConfig({
-          name: this.control,
-          as: this.control,
+          name: this.control.field,
+          as: this.control.field,
           rules: null
         }),
         menu: new SettingsMenu({
@@ -47,27 +36,6 @@
           y: 0
         })
       }))
-        .catch(error => {
-          console.error(error)
-        })
-    }
-
-    toggleSettingsIcon (value: boolean): void {
-      this.settingsIcon = value
-    }
-
-    toggleSettingsMenu (event: MouseEvent): void {
-      this.$store.dispatch('FormModule/toggleSettingsMenu', {
-        uuid: this.uuid,
-        options: {
-          open: true,
-          x: event.clientX,
-          y: event.clientY,
-        }
-      })
-        .catch(error => {
-          console.error(error)
-        })
     }
   }
 </script>

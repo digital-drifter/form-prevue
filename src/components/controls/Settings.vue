@@ -1,5 +1,11 @@
 <template>
-    <v-menu :close-on-content-click="false" :close-on-click="false" :position-x="config.menu.x" :position-y="config.menu.y" offset-y absolute v-model="open">
+    <v-menu :close-on-content-click="false"
+            :close-on-click="false"
+            :position-x="config.menu.x"
+            :position-y="config.menu.y"
+            offset-y
+            absolute
+            v-model="open">
         <v-card>
             <v-card-text>
                 <component v-for="(item, index) in settings"
@@ -7,6 +13,11 @@
                            :is="item.setting.component"
                            :label="item.setting.label"
                            :hint="item.setting.hint"
+                           :items="item.setting.options"
+                           :multiple="item.setting.multiple"
+                           :autocomplete="item.setting.autocomplete"
+                           item-text="label"
+                           item-value="value"
                            v-model="item.setting.value"
                            :persistent-hint="true"
                            @input="onSettingChanged($event, item.key, item.setting)"
@@ -15,9 +26,10 @@
             </v-card-text>
             <v-divider></v-divider>
             <v-card-actions>
+                <v-btn class="red--text" flat @click="onRemoveClicked">Remove</v-btn>
                 <v-spacer></v-spacer>
                 <v-btn flat @click="onCancelClicked">Cancel</v-btn>
-                <v-btn color="primary" flat @click="onSaveClicked">Save</v-btn>
+                <v-btn class="teal--text" flat @click="onSaveClicked">Save</v-btn>
             </v-card-actions>
         </v-card>
     </v-menu>
@@ -26,7 +38,7 @@
 <script lang="ts">
   import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
   import FieldConfig from '@/configs/FieldConfig'
-  import { FieldSettingInterface, FieldSettingsInterface } from '@/types/controls'
+  import { default as FieldConfigInterface, FieldSettingInterface, FieldSettingsInterface } from '@/types/controls'
 
   @Component
   export default class Settings extends Vue {
@@ -38,7 +50,7 @@
 
     @Watch('open')
     onOpenChanged (current: boolean, previous: boolean) {
-      if (current && !previous) {
+      if (this.config && current && !previous) {
         this.initial = Object.assign({}, this.config.settings)
         Object.freeze(this.initial)
       }
@@ -72,16 +84,25 @@
     }
 
     onSettingChanged (value: any, key: string, setting: FieldSettingInterface): void {
-      setting.value = value
+      if (value instanceof Event) {
 
-      this.$store.dispatch('FormModule/updateFieldSetting', {
-        uuid: this.config.uuid,
-        key,
-        setting
-      })
-        .catch(error => {
-          console.error(error)
+      } else {
+        setting.value = value
+        this.$store.dispatch('FormModule/updateFieldSetting', {
+          uuid: this.config.uuid,
+          key,
+          setting
         })
+          .catch(error => {
+            console.error(error)
+          })
+      }
+    }
+
+    onRemoveClicked (): void {
+      const uuid: string = this.config.uuid
+      let index: number = this.$store.getters['FormModule/fields'].findIndex((field: FieldConfigInterface) => field.uuid === uuid)
+      this.$root.$emit('field:remove', {index,uuid})
     }
 
     onCancelClicked (): void {

@@ -1,41 +1,5 @@
-import FieldConfigInterface, { FieldSettingInterface, FieldSettingsInterface, SettingsMenuInterface } from '@/types/controls'
+import FieldConfigInterface, { FieldSettingsInterface, SettingsMenuInterface } from '@/types/controls'
 import ValidationInterface from '@/types/validation'
-
-export class SettingsMenu implements SettingsMenuInterface {
-  open: boolean = false
-  x: number = 0
-  y: number = 0
-
-  constructor(options: {[key:string]: any}) {
-    this.open = options.open
-    this.x = options.x
-    this.y = options.y
-  }
-}
-
-export class FieldSetting implements FieldSettingInterface {
-  component: any
-  label: string
-  value: any
-  hint: string
-
-  constructor(setting: {[key:string]: any}) {
-    this.component = setting.component
-    this.label = setting.label
-    this.value = setting.value
-    this.hint = setting.hint
-  }
-}
-
-export class FieldSettings implements FieldSettingsInterface {
-  [key: string]: FieldSettingInterface
-
-  constructor(settings: {[key:string]: FieldSettingInterface}) {
-    Object.keys(settings).forEach(key => {
-      this[key] = settings[key]
-    })
-  }
-}
 
 export default class FieldConfig implements FieldConfigInterface {
   uuid: string

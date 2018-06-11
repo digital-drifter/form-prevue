@@ -1,43 +1,58 @@
 <template>
-    <span>
+    <v-flex>
         <v-radio-group v-model="model"
-                       prepend-icon="settings"
                        :mandatory="false"
-                       :ref="name"
+                       :ref="config.uuid"
                        row>
             <v-radio v-for="(radio, index) in options"
                      :key="index"
                      :label="radio.label"
                      :value="radio.value"
                      @change="$emit('change', $event)"
-                     @update="$emit('update', $event)">
+                     @input="$emit('update', $event)">
             </v-radio>
         </v-radio-group>
-        <settings :menu.sync="menu" :x="x" :y="y"></settings>
-    </span>
+        <settings :config="config"></settings>
+    </v-flex>
 </template>
 
 <script lang="ts">
-  import { Component, Prop } from 'vue-property-decorator'
+  import { Component } from 'vue-property-decorator'
   import BaseControl from '@/components/controls/base'
-  import Settings from '@/components/controls/Settings.vue'
+  import { FieldSetting, FieldSettings, SettingOption } from '@/configs/SettingsConfig'
 
-  @Component({
-    components: {
-      Settings
-    }
-  })
+  @Component
   export default class RadioField extends BaseControl {
-    model: string | number | boolean
+    model: string | number | boolean | null = null
     options: Object[] = []
 
-    @Prop({default: undefined})
-    name: string
-
-    created (): void {
-      this.options.push({
-        label: 'Option 1',
-        value: 'Value 1'
+    beforeCreate (): void {
+      this.settings = new FieldSettings({
+        label: new FieldSetting({
+          label: 'Field Label',
+          value: '',
+          component: 'v-text-field'
+        }),
+        required: new FieldSetting({
+          label: 'Required',
+          value: false,
+          component: 'v-switch'
+        }),
+        direction: new FieldSetting({
+          label: 'Direction',
+          value: 'Column',
+          component: 'v-select',
+          options: [
+            new SettingOption({
+              label: 'Column',
+              value: 'Column'
+            }),
+            new SettingOption({
+              label: 'Row',
+              value: 'Row'
+            })
+          ]
+        })
       })
     }
   }

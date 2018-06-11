@@ -1,26 +1,59 @@
 <template>
-    <v-text-field type="datetime"
-                  :ref="name"
-                  v-model="model"
-                  v-validate="rules"
-                  :error-messages="errors.collect(name)"
-                  :data-vv-name="name"
-                  :data-vv-as="as"
-                  :name="name"
-                  :label="label"
-                  :required="required"
-                  prepend-icon="timer"
-                  @change="$emit('change', $event)"
-                  @update="$emit('update', $event)">
-    </v-text-field>
+    <v-flex>
+        <v-text-field data-input
+                      :ref="config.uuid"
+                      v-model="model"
+                      v-validate="config.validation.rules"
+                      :error-messages="errors.collect(config.validation.name)"
+                      :data-vv-name="config.validation.name"
+                      :data-vv-as="config.validation.as"
+                      :name="config.name"
+                      :label="label"
+                      :required="required"
+                      @change="$emit('change', $event)"
+                      @input="$emit('update', $event)">
+        </v-text-field>
+        <settings :config="config"></settings>
+    </v-flex>
 </template>
 
 <script lang="ts">
   import { Component } from 'vue-property-decorator'
+  import Flatpickr from 'flatpickr'
   import BaseControl from '@/components/controls/base'
+  import { FieldSetting, FieldSettings } from '@/configs/SettingsConfig'
 
   @Component
   export default class DatetimeField extends BaseControl {
-    model: string | null = null
+    model: string = (new Date()).toISOString()
+
+    beforeCreate (): void {
+      this.settings = new FieldSettings({
+        label: new FieldSetting({
+          label: 'Field Label',
+          value: '',
+          component: 'v-text-field'
+        }),
+        required: new FieldSetting({
+          label: 'Required?',
+          value: false,
+          component: 'v-switch'
+        })
+      })
+    }
+
+    mounted () {
+      new Flatpickr(this.element, {
+        enableTime: true,
+        defaultDate: this.model,
+        onChange: (selectedDates: Date[], dateStr: string) => {
+          this.model = dateStr
+        }
+      })
+    }
   }
 </script>
+<style type="text/css">
+    @import '~flatpickr/dist/flatpickr.min.css';
+    @import '~flatpickr/dist/themes/airbnb.css';
+</style>

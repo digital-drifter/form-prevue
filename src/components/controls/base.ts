@@ -1,6 +1,6 @@
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
-import FieldConfig, { FieldSettings } from '@/configs/FieldConfig'
 import Settings from '@/components/controls/Settings.vue'
+import { default as FieldConfigInterface, FieldSettingsInterface } from '@/types/controls'
 
 @Component({
   components: {
@@ -8,32 +8,57 @@ import Settings from '@/components/controls/Settings.vue'
   }
 })
 export default class BaseControl extends Vue {
-  settings: FieldSettings
-
-  @Prop() type: string
+  settings: FieldSettingsInterface
 
   @Prop() uuid: string
 
-  get config (): FieldConfig {
-    return this.$store.getters['FormModule/findFieldByUuid'](this.uuid)
+  get element (): HTMLElement {
+    let component: Vue = <Vue>this.$refs[this.uuid]
+
+    return <HTMLElement>component.$el
   }
 
-  get label (): string {
-    return this.config.settings['label']['value']
+  get config (): FieldConfigInterface {
+    return this.$store.getters['FormModule/findFieldByUuid'](this.uuid) || null
+  }
+
+  get validation (): string | object {
+    return this.config.validation
+  }
+
+  get autocomplete (): boolean {
+    return this.config.settings.autocomplete.value
+  }
+
+  get label (): string | undefined {
+    return this.config.settings.label.value
   }
 
   get required (): boolean {
-    if (this.config.settings) {
-      return this.config.settings['required']['value']
-    }
-    return false
+    return this.config.settings.required.value
   }
 
-  @Watch('required')
-  onRequiredChanged (current: boolean, previous: boolean) {
-    this.$store.dispatch('FormModule/updateFieldValidationRules', {
+  get placeholder (): string | undefined {
+    return this.config.settings.placeholder.value
+  }
+
+  // @Watch('required')
+  // onRequiredChanged (current: boolean, previous: boolean) {
+  //   if (this.config && this.validation) {
+  //     this.$store.dispatch('FormModule/updateFieldValidationRules', {
+  //       uuid: this.uuid,
+  //       rules: Object.assign({}, this.config.validation.rules, {required: current && !previous})
+  //     })
+  //       .catch(error => {
+  //         console.error(error)
+  //       })
+  //   }
+  // }
+
+  created (): void {
+    this.$store.dispatch('FormModule/updateFieldSettings', {
       uuid: this.uuid,
-      rules: Object.assign({}, this.config.validation.rules, {required: current && !previous})
+      settings: this.settings
     })
       .catch(error => {
         console.error(error)

@@ -30,12 +30,15 @@ const mutations: MutationTree<FormState> = {
   ADD_FORM_FIELD: (state: FormState, field: FieldConfigInterface) => {
     Vue.set(state.fields, state.fields.length, field)
   },
+  REMOVE_FORM_FIELD: (state: FormState, uuid: string) => {
+    let fields: FieldConfigInterface[] = state.fields.filter(field => field.uuid !== uuid)
+
+    Vue.set(state, 'fields', fields)
+  },
   TOGGLE_SETTINGS_MENU: (state: FormState, {field, options}) => {
-    Vue.set(field, 'menu', {
-      open: options.open,
-      x: options.x,
-      y: options.y
-    })
+    Vue.set(field.menu, 'open', options.open)
+    Vue.set(field.menu, 'x', options.x)
+    Vue.set(field.menu, 'y', options.y)
   },
   UPDATE_FIELD_SETTINGS: (state: FormState, {field, settings}) => {
     Vue.set(field, 'settings', {...settings})
@@ -55,6 +58,12 @@ const actions: ActionTree<FormState, any> = {
   },
   addField: (context: ActionContext<FormState, any>, field: FieldConfig) => {
     context.commit('ADD_FORM_FIELD', field)
+  },
+  removeField: (context: ActionContext<FormState, any>, uuid) => {
+    // let index: number = context.state.fields.findIndex(field => uuid === field.uuid)
+    let fields: FieldConfigInterface[] = context.state.fields.filter(field => field.uuid !== uuid)
+
+    context.commit('SET_FORM_FIELDS', fields)
   },
   toggleSettingsMenu: (context: ActionContext<FormState, any>, {uuid, options}) => {
     let field: FieldConfigInterface = context.getters['findFieldByUuid'](uuid)

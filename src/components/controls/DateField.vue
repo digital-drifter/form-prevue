@@ -1,8 +1,7 @@
 <template>
     <v-flex>
         <v-text-field data-input
-                      type="text"
-                      :ref="config.name"
+                      :ref="config.uuid"
                       v-model="model"
                       v-validate="config.validation.rules"
                       :error-messages="errors.collect(config.validation.name)"
@@ -22,30 +21,29 @@
   import { Component } from 'vue-property-decorator'
   import Flatpickr from 'flatpickr'
   import BaseControl from '@/components/controls/base'
-  import Settings from '@/components/controls/Settings.vue'
+  import { FieldSetting, FieldSettings } from '@/configs/SettingsConfig'
 
-  @Component({
-    components: {
-      Settings
-    }
-  })
+  @Component
   export default class DateField extends BaseControl {
     model: string = (new Date()).toISOString().substring(0, 10)
 
-    get flatpickr (): HTMLElement {
-      return this.$refs[this.uuid]['$el']
-    }
-
-    get label (): string {
-      return this.config.settings['label']['value']
-    }
-
-    get required (): boolean {
-      return this.config.settings['required']['value']
+    beforeCreate (): void {
+      this.settings = new FieldSettings({
+        label: new FieldSetting({
+          label: 'Field Label',
+          value: '',
+          component: 'v-text-field'
+        }),
+        required: new FieldSetting({
+          label: 'Required?',
+          value: false,
+          component: 'v-switch'
+        })
+      })
     }
 
     mounted () {
-      new Flatpickr(this.flatpickr, {
+      new Flatpickr(this.element, {
         enableTime: false,
         defaultDate: this.model,
         onChange: (selectedDates: Date[], dateStr: string) => {
@@ -55,3 +53,7 @@
     }
   }
 </script>
+<style type="text/css">
+    @import '~flatpickr/dist/flatpickr.min.css';
+    @import '~flatpickr/dist/themes/airbnb.css';
+</style>
