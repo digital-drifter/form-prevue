@@ -4,6 +4,7 @@ export interface SettingOptionInterface {
 }
 
 export interface FieldOptionInterface {
+  uuid: string
   label: string
   value: any
 }

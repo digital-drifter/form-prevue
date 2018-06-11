@@ -28,7 +28,7 @@ export class FieldSetting implements FieldSettingInterface {
   label: string
   value: any
   hint: string
-  options?: SettingOptionInterface[]
+  options?: SettingOptionInterface[] | undefined
   multiple?: boolean
   autocomplete?: boolean
   mask?: string

@@ -8,6 +8,12 @@
                   :name="config.name"
                   :label="label"
                   :required="required"
+                  :items="options"
+                  :placeholder="placeholder"
+                  :hint="hint"
+                  item-value="value"
+                  item-text="label"
+                  persistent-hint
                   v-model="model"
                   @change="$emit('change', $event)"
                   @input="$emit('update', $event)">
@@ -48,6 +54,12 @@
         component: 'v-text-field',
         hint: 'Short hint that describes the expected value of a text area.'
       }),
+      hint: new FieldSetting({
+        label: 'Hint',
+        value: null,
+        component: 'v-text-field',
+        hint: 'Additional helper text to describe the field and available options.'
+      })
     })
   }
 </script>

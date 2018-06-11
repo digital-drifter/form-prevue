@@ -1,5 +1,6 @@
 import { FieldConfigInterface, FieldSettingsInterface, SettingsMenuInterface } from '@/types/controls'
 import ValidationInterface from '@/types/validation'
+import { FieldOptionInterface } from '@/types/options'
 
 export default class FieldConfig implements FieldConfigInterface {
   uuid: string
@@ -7,7 +8,7 @@ export default class FieldConfig implements FieldConfigInterface {
   menu: SettingsMenuInterface
   settings: FieldSettingsInterface
   validation: ValidationInterface
-  options?: Array<any> | undefined
+  options: FieldOptionInterface[]
   type?: string | undefined
 
   constructor (options: { [key: string]: any }) {

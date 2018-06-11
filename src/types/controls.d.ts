@@ -12,7 +12,7 @@ export interface FieldSettingInterface {
   value: any
   component: any
   hint: string
-  options?: SettingOptionInterface[]
+  options?: SettingOptionInterface[] | undefined
   multiple?: boolean
   autocomplete?: boolean
   mask?: string
@@ -32,7 +32,7 @@ export interface FieldConfigInterface {
   name: string
   menu: SettingsMenuInterface
   settings: FieldSettingsInterface
-  options?: FieldOptionInterface[]
+  options: FieldOptionInterface[]
   type?: string | undefined
   validation: ValidationInterface
 }

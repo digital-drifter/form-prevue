@@ -1,5 +1,6 @@
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { FieldConfigInterface, FieldSettingsInterface } from '@/types/controls'
+import { FieldOptionInterface } from '@/types/options'
 
 @Component({
   components: {
@@ -21,6 +22,10 @@ export default class BaseControl extends Vue {
     return this.$store.getters['FormModule/findFieldByUuid'](this.uuid) || null
   }
 
+  get options(): FieldOptionInterface[] {
+    return this.config.options || []
+  }
+
   get validation (): string | object {
     return this.config.validation
   }
@@ -35,6 +40,10 @@ export default class BaseControl extends Vue {
 
   get required (): boolean {
     return this.config.settings.required.value
+  }
+
+  get hint (): string | undefined {
+    return this.config.settings.hint.value
   }
 
   get placeholder (): string | undefined {
@@ -55,13 +64,19 @@ export default class BaseControl extends Vue {
   // }
 
   created (): void {
-    this.$store.dispatch('FormModule/updateFieldSettings', {
+    let promises: Promise<any>[] = []
+
+    promises.push(this.$store.dispatch('FormModule/updateFieldSettings', {
       uuid: this.uuid,
       settings: this.settings
-    })
-      .catch(error => {
-        // console.error(error)
-        return error
-      })
+    }))
+
+    promises.push(this.$store.dispatch('FormModule/updateFieldOptions', {
+      uuid: this.uuid,
+      options: this.options
+    }))
+
+    Promise.all(promises)
+      .catch(error =>error)
   }
 }
