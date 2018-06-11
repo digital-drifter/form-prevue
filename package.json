@@ -21,6 +21,7 @@
     "vee-validate": "dev-master",
     "vue": "^2.5.16",
     "vue-class-component": "^6.0.0",
+    "vue-drag-resize": "^1.2.3",
     "vue-filepond": "^2.1.1",
     "vue-property-decorator": "^6.0.0",
     "vuedraggable": "^2.16.0",

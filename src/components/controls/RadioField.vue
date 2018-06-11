@@ -21,12 +21,13 @@
   import BaseControl from '@/components/controls/base'
   import { FieldSetting, FieldSettings, SettingOption } from '@/configs/SettingsConfig'
   import { FieldSettingsInterface } from '@/types/controls'
+  import { FieldOptionInterface } from '@/types/options'
 
   @Component
   export default class RadioField extends BaseControl {
     model: string | number | boolean | null = null
 
-    options: Object[] = []
+    options: FieldOptionInterface[] = []
 
     settings: FieldSettingsInterface = new FieldSettings({
       label: new FieldSetting({

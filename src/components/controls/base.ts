@@ -19,7 +19,7 @@ export default class BaseControl extends Vue {
   }
 
   get config (): FieldConfigInterface {
-    return this.$store.getters['FormModule/findFieldByUuid'](this.uuid) || null
+    return this.$store.getters['FormModule/findFieldByUuid'](this.uuid)
   }
 
   get options(): FieldOptionInterface[] {

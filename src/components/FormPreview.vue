@@ -1,6 +1,6 @@
 <template>
-    <v-container fluid>
-        <v-layout>
+    <v-container fluid fill-height>
+        <v-layout v-if="controls.length">
             <v-flex>
                 <v-form>
                     <draggable v-model="controls" :options="dragOptions" v-bind="{xs3: true}" @end="onDragEnd">
@@ -9,6 +9,12 @@
                         </transition-group>
                     </draggable>
                 </v-form>
+            </v-flex>
+        </v-layout>
+        <v-layout v-else align-center justify-space-around text-xs-center>
+            <v-flex>
+                <div class="display-1 grey--text text--lighten-1">Click on a field from the menu on the left to start building a form.</div>
+                <v-icon flat class="display-3 grey--text mt-5">assignment</v-icon>
             </v-flex>
         </v-layout>
     </v-container>
