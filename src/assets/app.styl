@@ -28,8 +28,12 @@
   .settings__panel
     min-height 366px !important
 
-.menu-handle:hover
+.menu-handle:hover, .vdr.active
     cursor grab !important
+
+.vdr.active:before {
+  outline none !important
+}
 
 .option__input
   padding 0!important
